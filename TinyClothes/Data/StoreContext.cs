@@ -28,6 +28,8 @@ namespace TinyClothes.Data
         //Connect to Database using Package Manager Console
         //Type: 
         //Type: Add-Migration
-        //
+        //^this generates scripts^
+        //Type: UpDate-Database
+        //^This creates Database^
     }
 }
