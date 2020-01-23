@@ -24,5 +24,10 @@ namespace TinyClothes.Data
         /// https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-3.1#create-the-database-context
         /// </summary>
         public DbSet<Clothing> Clothing { get; set; }
+
+        //Connect to Database using Package Manager Console
+        //Type: 
+        //Type: Add-Migration
+        //
     }
 }
