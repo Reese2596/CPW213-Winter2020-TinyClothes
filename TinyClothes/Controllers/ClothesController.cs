@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TinyClothes.Data;
+using TinyClothes.Models;
 
 namespace TinyClothes.Controllers
 {
@@ -21,13 +22,29 @@ namespace TinyClothes.Controllers
         [HttpGet]
         public IActionResult ShowAll()
         {
-            return View();
+            //Just a placeholder til we fix it
+            IEnumerable<Clothing> clothes = new List<Clothing>();
+            return View(clothes);
         }
 
         [HttpGet]
         public IActionResult Add()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(Clothing c)
+        {
+            if (ModelState.IsValid)
+            {
+                await ClothingDb.Add(_context, c);
+                //Temp data last for one redirect
+                TempData["Msg"] = $"{c.Title} added successfully!";
+                return RedirectToAction("ShowAll");
+            }
+            //Return same view with validation msgs.
+            return View(c);
         }
     }
 }
