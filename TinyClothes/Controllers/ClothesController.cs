@@ -20,11 +20,31 @@ namespace TinyClothes.Controllers
         }
 
         [HttpGet]
-        public IActionResult ShowAll()
+        public async Task<IActionResult> ShowAll(int? page)
         {
-            //Just a placeholder til we fix it
-            IEnumerable<Clothing> clothes = new List<Clothing>();
+            const int pageSize = 2;
+
+            //null coalescing operator
+            //https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator
+            int pageNumber = page ?? 1; //(page.HasValue)? page.Value : 1;
+
+            int maxPage = await GetMaxPage(pageSize);
+            ViewData["MaxPage"] = maxPage;
+
+            IEnumerable<Clothing> clothes = await ClothingDb.GetClothingByPage(_context,
+                pageNum: pageNumber, pageSize: pageSize);
+
             return View(clothes);
+        }
+
+        private async Task<int> GetMaxPage(int pageSize)
+        {
+            int NumProducts = await ClothingDb.GetNumClothing(_context);
+            //num product and page size are both an int so to get the decimal you must convert to a double
+            // than to round up you must use Math.Ceiling which is a double so you must convert back to int
+            int maxPage = Convert.ToInt32
+                            (Math.Ceiling((double)NumProducts / pageSize));
+            return maxPage;
         }
 
         [HttpGet]

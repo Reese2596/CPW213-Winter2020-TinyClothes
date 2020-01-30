@@ -13,6 +13,19 @@ namespace TinyClothes.Data
     public static class ClothingDb
     {
         /// <summary>
+        /// returns the total nuber of clothing items
+        /// </summary>
+        /// <returns></returns>
+        public async static Task<int> GetNumClothing(StoreContext context)
+        {
+            return await context.Clothing.CountAsync();
+            #region Query Syntax
+            //return await (from c in context.Clothing
+            //              select c).CountAsync();
+            #endregion
+        }
+
+        /// <summary>
         /// Returns specific page of clothing item s sorted by item id  in asc order.
         /// </summary>
         /// <param name="pageNum">Product page #</param>
@@ -31,7 +44,6 @@ namespace TinyClothes.Data
                         .Take(pageSize)
                         .OrderBy(c => c.ItemID)
                         .ToListAsync();
-
             #region LINQ Query Syntax
             //List<Clothing> clothings =
             //     await (from c in context.Clothing
