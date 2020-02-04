@@ -32,3 +32,15 @@
 
     <input type="submit" value="Add Clothing" />
 </form>
+
+@section Scripts
+{
+    @*Render partial View
+    https://docs.microsoft.com/en-us/aspnet/core/mvc/views/partial?view=aspnetcore-3.1*@
+    <partial name="_ValidationScriptsPartial" />
+
+    @* scripts included using partial view above
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    *@
+}
