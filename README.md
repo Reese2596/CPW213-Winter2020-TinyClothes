@@ -1,5 +1,7 @@
 # TinyClothes
 
+![Build](https://github.com/Reese2596/CPW213-Winter2020-TinyClothes/workflows/.NET%20Core/badge.svg)
+
 ### Tiny Clothes for the cutest tiny Animals.
 
 In Class website built using ASP.NET Core MVC
