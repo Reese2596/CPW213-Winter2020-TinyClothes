@@ -71,6 +71,21 @@ namespace TinyClothes.Data
         }
 
         /// <summary>
+        /// Changes an individual clothing item in the database 
+        /// and save said changes.
+        /// </summary>
+        /// <param name="c">Clothing object</param>
+        /// <param name="context">DBcontext</param>
+        public static async Task<Clothing> Edit(Clothing c, StoreContext context)
+        {
+            await context.AddAsync(c);
+            context.Entry(c).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+
+            return c;
+        }
+
+        /// <summary>
         /// a single clothing item or null if there are no matches.
         /// </summary>
         /// <param name="id">The Id of the item</param>
