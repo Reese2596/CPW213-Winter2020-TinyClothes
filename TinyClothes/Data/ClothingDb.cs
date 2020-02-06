@@ -69,5 +69,19 @@ namespace TinyClothes.Data
 
             return c;
         }
+
+        /// <summary>
+        /// a single clothing item or null if there are no matches.
+        /// </summary>
+        /// <param name="id">The Id of the item</param>
+        /// <param name="context">DB context</param>
+        public static async Task<Clothing> GetClothingByID(int id, StoreContext context)
+        {
+            Clothing c =
+                await (from clothing in context.Clothing
+                        where clothing.ItemID == id
+                        select clothing).SingleOrDefaultAsync();
+            return c;
+        }
     }
 }
