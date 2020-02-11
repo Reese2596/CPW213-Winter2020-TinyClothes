@@ -110,10 +110,20 @@ namespace TinyClothes.Data
             //Check if clothing item exist in Database
             if(c != null)
             {
-                await context.AddAsync(c);
-                context.Entry(c).State = EntityState.Deleted;
-                await context.SaveChangesAsync();
+                await Delete(c, context);
             }
+        }
+
+        /// <summary>
+        /// Overload the previous Delete method.
+        /// </summary>
+        /// <param name="c">Clothing object</param>
+        /// <param name="context">DB Context</param>
+        public async static Task Delete(Clothing c, StoreContext context)
+        {
+            await context.AddAsync(c);
+            context.Entry(c).State = EntityState.Deleted;
+            await context.SaveChangesAsync();
         }
     }
 }
