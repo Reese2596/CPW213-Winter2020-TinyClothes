@@ -100,22 +100,8 @@ namespace TinyClothes.Data
         }
 
         /// <summary>
-        /// Deletes a single clothing item by id
-        /// </summary>
-        /// <param name="id">Clothing id</param>
-        /// <param name="context"> The Db </param>
-        public async static Task Delete(int id, StoreContext context)
-        {
-            Clothing c = await GetClothingByID(id, context);
-            //Check if clothing item exist in Database
-            if(c != null)
-            {
-                await Delete(c, context);
-            }
-        }
-
-        /// <summary>
         /// Overload the previous Delete method.
+        /// Deletes single clothing item by id.
         /// </summary>
         /// <param name="c">Clothing object</param>
         /// <param name="context">DB Context</param>
