@@ -98,5 +98,18 @@ namespace TinyClothes.Data
                         select clothing).SingleOrDefaultAsync();
             return c;
         }
+
+        /// <summary>
+        /// Overload the previous Delete method.
+        /// Deletes single clothing item by id.
+        /// </summary>
+        /// <param name="c">Clothing object</param>
+        /// <param name="context">DB Context</param>
+        public async static Task Delete(Clothing c, StoreContext context)
+        {
+            await context.AddAsync(c);
+            context.Entry(c).State = EntityState.Deleted;
+            await context.SaveChangesAsync();
+        }
     }
 }
