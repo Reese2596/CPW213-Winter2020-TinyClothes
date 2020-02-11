@@ -71,7 +71,8 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-outline-light">Edit</a>
+                <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-outline-light">Edit Me</a> | 
+                <a asp-action="Delete" asp-route-id="@item.ItemID" class="btn btn-outline-light">Delete Me</a>
             </td>
         </tr>
 }

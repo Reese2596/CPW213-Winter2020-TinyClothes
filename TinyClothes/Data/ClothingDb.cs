@@ -98,5 +98,22 @@ namespace TinyClothes.Data
                         select clothing).SingleOrDefaultAsync();
             return c;
         }
+
+        /// <summary>
+        /// Deletes a single clothing item by id
+        /// </summary>
+        /// <param name="id">Clothing id</param>
+        /// <param name="context"> The Db </param>
+        public async static Task Delete(int id, StoreContext context)
+        {
+            Clothing c = await GetClothingByID(id, context);
+            //Check if clothing item exist in Database
+            if(c != null)
+            {
+                await context.AddAsync(c);
+                context.Entry(c).State = EntityState.Deleted;
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

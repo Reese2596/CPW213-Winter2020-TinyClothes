@@ -87,9 +87,31 @@ namespace TinyClothes.Controllers
             if (ModelState.IsValid)
             {
                 await ClothingDb.Edit(c, _context);
-                ViewData["Msg"] = c.Title + " Updated Successfully!";
+                //tempData last for one redirect
+                ViewData["Msg"] = c.Title + " Updated Successfully!"; // <- Same thing, ViewBag
             }
             return View(c);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Clothing c = await ClothingDb.GetClothingByID(id, _context);
+            //If id does not exist, go to 404 page
+            if(c == null)   
+            {
+                return NotFound();
+            }
+            return View(c);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await ClothingDb.Delete(id, _context);
+            TempData["Msg"] = "Clothing Deleted Successfully.";
+            return RedirectToAction(nameof(ShowAll));
         }
     }
 }
