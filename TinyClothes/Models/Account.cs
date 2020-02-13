@@ -39,4 +39,29 @@ namespace TinyClothes.Models
 
         public string Address { get; set; }
     }
+
+    public class RegisterViewModel
+    {
+        [Required(ErrorMessage = "FullNAme cannot exceed 60 characters")]
+        [StringLength(60)]
+        public string FullName { get; set; }
+
+        [Required(ErrorMessage = "UserName cannot exceed 20 characters")]
+        [StringLength(20)]
+        public string UserName { get; set; }
+
+        [Required]
+        [StringLength(150)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare(nameof(Password))]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+    }
 }
