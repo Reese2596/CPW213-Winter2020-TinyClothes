@@ -42,11 +42,12 @@ namespace TinyClothes.Models
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "FullNAme cannot exceed 60 characters")]
+        [Required()]
+        [Display(Name = "Full Name")]
         [StringLength(60)]
         public string FullName { get; set; }
 
-        [Required(ErrorMessage = "UserName cannot exceed 20 characters")]
+        [Required()]
         [StringLength(20)]
         public string UserName { get; set; }
 
@@ -58,6 +59,7 @@ namespace TinyClothes.Models
         [Required]
         [Compare(nameof(Password))]
         [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
         [Required]
