@@ -10,6 +10,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Register">
+            <!--if you want error msg on top of page change asp-validation-summary to all.-->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FullName" class="control-label"></label>
