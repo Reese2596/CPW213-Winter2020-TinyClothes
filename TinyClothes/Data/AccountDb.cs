@@ -16,9 +16,9 @@ namespace TinyClothes
         /// <param name="context">The DB context</param>
         public static async Task<bool> IsUserNameTaken(string userName, StoreContext context)
         {
-            bool isTaken = await (from acc in context.Accounts
-                                where acc.Username == userName
-                                select acc).AnyAsync();
+            bool isTaken =  await (from acc in context.Accounts
+                                    where acc.Username == userName
+                                    select acc).AnyAsync();
             return isTaken;
         }
 
@@ -33,6 +33,21 @@ namespace TinyClothes
             await context.SaveChangesAsync();
             return acc;
         }
-        
+
+        /// <summary>
+        /// return true based on, 
+        /// Checking if an individual username/Email and password combination exist
+        /// </summary>
+        /// <param name="login">Username and Password</param>
+        /// <param name="context">DB Context</param>
+        public static async Task<bool> DoesUserMatch(LoginViewModel login, StoreContext context)
+        {
+            bool doesMatch =  await (from user in context.Accounts
+                               where (user.Email == login.UsernameOrEmail ||
+                                      user.Username == login.UsernameOrEmail) &&
+                                      user.Password == login.Password
+                               select user).AnyAsync();
+            return doesMatch;
+        }
     }
 }
