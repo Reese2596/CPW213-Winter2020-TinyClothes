@@ -13,9 +13,13 @@ namespace TinyClothes.Controllers
     {
         private readonly StoreContext _context;
 
-        public AccountController(StoreContext context)
+        private readonly IHttpContextAccessor _http;
+
+        public AccountController(StoreContext context, IHttpContextAccessor http)
         {
             _context = context;
+            _http = http;
+
         }
 
         [HttpGet]
@@ -43,9 +47,12 @@ namespace TinyClothes.Controllers
                     await AccountDb.Register(acc, _context);
 
                     //create user session
-                    HttpContext.Session.SetInt32("Id", acc.AccountID);
-                    HttpContext.Session.SetString("Username", acc.Username);
-                    
+                    SessionHelper.CreateUserSession( _http, acc.AccountID, acc.Username);
+                    #region Manual CreateUserSession Practice
+                    //HttpContext.Session.SetInt32("Id", acc.AccountID);
+                    //HttpContext.Session.SetString("Username", acc.Username);
+                    #endregion
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -63,15 +70,13 @@ namespace TinyClothes.Controllers
             return View();
         }
 
-        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<TODO>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\\
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             if (ModelState.IsValid)
             {
-                bool isMatch = await AccountDb.DoesUserMatch(login, _context);
-                //TODO: Create Session
-
+                Account acc = await AccountDb.DoesUserMatch(login, _context);
+                SessionHelper.CreateUserSession(_http, acc.AccountID, acc.Username);
                 return RedirectToAction("Index", "Home");
             }
             return View(login);

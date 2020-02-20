@@ -10,7 +10,8 @@ namespace TinyClothes
     public static class AccountDb
     {
         /// <summary>
-        /// Checks if the Username is taken or if it is available.
+        /// Returns the account of the user with the applied login credintial.
+        /// Returns null if does not exist.
         /// </summary>
         /// <param name="userName">Username to check</param>
         /// <param name="context">The DB context</param>
@@ -34,20 +35,15 @@ namespace TinyClothes
             return acc;
         }
 
-        /// <summary>
-        /// return true based on, 
-        /// Checking if an individual username/Email and password combination exist
-        /// </summary>
-        /// <param name="login">Username and Password</param>
-        /// <param name="context">DB Context</param>
-        public static async Task<bool> DoesUserMatch(LoginViewModel login, StoreContext context)
+        
+        public static async Task<Account> DoesUserMatch(LoginViewModel login, StoreContext context)
         {
-            bool doesMatch =  await (from user in context.Accounts
+            Account acc =  await (from user in context.Accounts
                                where (user.Email == login.UsernameOrEmail ||
                                       user.Username == login.UsernameOrEmail) &&
                                       user.Password == login.Password
-                               select user).AnyAsync();
-            return doesMatch;
+                               select user).SingleOrDefaultAsync();
+            return acc;
         }
     }
 }
