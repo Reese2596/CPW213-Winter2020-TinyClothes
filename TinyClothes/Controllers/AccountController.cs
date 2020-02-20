@@ -22,6 +22,7 @@ namespace TinyClothes.Controllers
 
         }
 
+        #region Registration Methods
         [HttpGet]
         public IActionResult Register()
         {
@@ -63,7 +64,9 @@ namespace TinyClothes.Controllers
             }
             return View(reg);
         }
+        #endregion
 
+        #region Login Method
         [HttpGet]
         public IActionResult Login()
         {
@@ -80,6 +83,12 @@ namespace TinyClothes.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View(login);
+        }
+        #endregion
+        public IActionResult Logout()
+        {
+            SessionHelper.DestroyUserSession(_http);
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }
