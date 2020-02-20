@@ -10,15 +10,16 @@ namespace TinyClothes
     public static class AccountDb
     {
         /// <summary>
-        /// Checks if the Username is taken or if it is available.
+        /// Returns the account of the user with the applied login credintial.
+        /// Returns null if does not exist.
         /// </summary>
         /// <param name="userName">Username to check</param>
         /// <param name="context">The DB context</param>
         public static async Task<bool> IsUserNameTaken(string userName, StoreContext context)
         {
-            bool isTaken = await (from acc in context.Accounts
-                                where acc.Username == userName
-                                select acc).AnyAsync();
+            bool isTaken =  await (from acc in context.Accounts
+                                    where acc.Username == userName
+                                    select acc).AnyAsync();
             return isTaken;
         }
 
@@ -33,6 +34,16 @@ namespace TinyClothes
             await context.SaveChangesAsync();
             return acc;
         }
+
         
+        public static async Task<Account> DoesUserMatch(LoginViewModel login, StoreContext context)
+        {
+            Account acc =  await (from user in context.Accounts
+                               where (user.Email == login.UsernameOrEmail ||
+                                      user.Username == login.UsernameOrEmail) &&
+                                      user.Password == login.Password
+                               select user).SingleOrDefaultAsync();
+            return acc;
+        }
     }
 }
