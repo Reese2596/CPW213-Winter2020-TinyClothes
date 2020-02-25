@@ -12,6 +12,7 @@ namespace TinyClothes.Controllers
     public class CartController : Controller
     {
         private readonly StoreContext _context;
+        //To read Cookie data.
         private readonly IHttpContextAccessor _http;
         public CartController(StoreContext context, IHttpContextAccessor http)
         {
@@ -31,7 +32,7 @@ namespace TinyClothes.Controllers
         /// Adds a single object to the cart.
         /// Quantity does not matter if same object added 5 times displayed 5 times.
         /// </summary>
-        public async Task<IActionResult> AddToCart(int id)
+        public async Task<IActionResult> AddToCart(int id, string prevUrl)
         {
             //Grab the clothing Object by Id.
             Clothing c = await ClothingDb.GetClothingByID(id, _context);
@@ -40,7 +41,8 @@ namespace TinyClothes.Controllers
             {
                 CartHelper.Add(c, _http);
             }
-            return View();
+            return Redirect(prevUrl);
+            //return RedirectToAction("Index", "Home") ;
         }
 
         /// <summary>
