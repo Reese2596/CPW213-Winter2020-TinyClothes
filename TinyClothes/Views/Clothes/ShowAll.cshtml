@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<TinyClothes.Models.Clothing>
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor  http
 @{
     ViewData["Title"] = "List Clothing Inventory";
 }
@@ -71,6 +71,8 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
+                <a asp-action="AddToCart" asp-controller="Cart" class="btn btn-outline-light"
+                   asp-route-id="@item.ItemID" asp-route-prevUrl="@http.HttpContext.Request.Path">Add To Cart</a><br /><br />
                 <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-outline-light">Edit Me</a> | 
                 <a asp-action="Delete" asp-route-id="@item.ItemID" class="btn btn-outline-light">Delete Me</a>
             </td>
