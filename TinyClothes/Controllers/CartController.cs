@@ -41,8 +41,8 @@ namespace TinyClothes.Controllers
             {
                 CartHelper.Add(c, _http);
             }
+            //redirect: sends you back to the url you were previously using
             return Redirect(prevUrl);
-            //return RedirectToAction("Index", "Home") ;
         }
 
         /// <summary>
