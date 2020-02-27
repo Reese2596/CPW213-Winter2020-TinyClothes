@@ -13,6 +13,11 @@ namespace TinyClothes.Models
     public static class CartHelper
     {
         /// <summary>
+        /// The Key used to access and add data to Cookie
+        /// </summary>
+        private const string CartCookie = "CartCookie";
+
+        /// <summary>
         /// Add a single clothing object to class
         /// </summary>
         /// <param name="c"> A single clothing object.</param>
@@ -30,23 +35,31 @@ namespace TinyClothes.Models
             };
 
             //Create Cookie to Store string Representaion and add Cookie.
-            http.HttpContext.Response.Cookies.Append("CartCookie", data, options);
+            http.HttpContext.Response.Cookies.Append(CartCookie, data, options);
 
         }
 
+        //Needs TO DO: refractor to use multiple inputs into cookie
         /// <summary>
         /// Grabs the total number of items in the cart.
+        /// Using the data stored in cookie.
         /// </summary>
-        /// <param name="http">Accessor to get access to the cookies</param>
+        /// <param name="http">Used to get access to the cookies</param>
         public static int GetCount(IHttpContextAccessor http)
         {
-            throw new NotImplementedException();
+            string data = http.HttpContext.Request.Cookies[CartCookie];
+            if (string.IsNullOrWhiteSpace(data))
+            {
+                return 0;
+            }
+            return 1;
         }
 
         /// <summary>
-        /// Grab all of the clothing from cart and displays them in an List of type Clothing
+        /// Grab all of the clothing from cart and displays them in an List of type Clothing.
+        /// Using data stored in Cookie.
         /// </summary>
-        /// <param name="http">Accessor to get access to the cookies</param>
+        /// <param name="http">Used to get access to the cookies</param>
         public static List<Clothing> GetAllClothingItems(IHttpContextAccessor http)
         {
             throw new NotImplementedException();
