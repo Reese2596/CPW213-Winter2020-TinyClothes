@@ -24,8 +24,12 @@ namespace TinyClothes.Models
         /// <param name="http"> An accessor to get to cookies.</param>
         public static void Add(Clothing c, IHttpContextAccessor http)
         {
+            //Grab all existing clothing items
+            List<Clothing> clothes = GetAllClothingItems(http);
+            clothes.Add(c);
+
             //Convert the clothing object into the string representaion.
-            string data = JsonConvert.SerializeObject(c);
+            string data = JsonConvert.SerializeObject(clothes);
             //Create Cookie Options 
             CookieOptions options = new CookieOptions()
             {
@@ -47,22 +51,26 @@ namespace TinyClothes.Models
         /// <param name="http">Used to get access to the cookies</param>
         public static int GetCount(IHttpContextAccessor http)
         {
-            string data = http.HttpContext.Request.Cookies[CartCookie];
-            if (string.IsNullOrWhiteSpace(data))
-            {
-                return 0;
-            }
-            return 1;
+            List<Clothing> allClothes = GetAllClothingItems(http);
+            return allClothes.Count;
         }
 
         /// <summary>
-        /// Grab all of the clothing from cart and displays them in an List of type Clothing.
-        /// Using data stored in Cookie.
+        /// Grab all of the clothing from cart(Cookie) and displays them in an List of type Clothing.
+        /// If no items present empty list returned. Using data stored in Cookie.
         /// </summary>
         /// <param name="http">Used to get access to the cookies</param>
         public static List<Clothing> GetAllClothingItems(IHttpContextAccessor http)
         {
-            throw new NotImplementedException();
+            string data = http.HttpContext.Request.Cookies[CartCookie];
+            if (string.IsNullOrWhiteSpace(data))
+            {
+                return new List<Clothing>();
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<List<Clothing>>(data);
+            }
         }
     }
 }
