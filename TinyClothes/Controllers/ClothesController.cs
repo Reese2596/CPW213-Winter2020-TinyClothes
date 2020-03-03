@@ -114,5 +114,11 @@ namespace TinyClothes.Controllers
             TempData["Msg"] = $"{c.Title} Deleted Successfully.";
             return RedirectToAction(nameof(ShowAll));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(SearchCriteria search)
+        {
+            return View();
+        }
     }
 }
