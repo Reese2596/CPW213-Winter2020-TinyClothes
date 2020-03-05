@@ -19,12 +19,15 @@ namespace TinyClothes.Models
         /// </summary>
         public string Type { get; set; }
 
+        [StringLength(150)]
         public string Title { get; set; }
 
-        [Range(0.00, 1000.00)]
+        [Range(0.00, double.MaxValue, ErrorMessage = "Min Price, Must be Positive.")]
+        [Display(Name = "Min Price")]
         public double? MinPrice { get; set; }
 
-        [Range(0.00, double.MaxValue)]
+        [Range(0.00, double.MaxValue, ErrorMessage = "Max Price, Must be Positive.")]
+        [Display(Name = "Max Price")]
         public double? MaxPrice { get; set; }
 
         public List<Clothing> Results { get; set; }
