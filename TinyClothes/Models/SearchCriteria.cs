@@ -32,5 +32,14 @@ namespace TinyClothes.Models
 
         public List<Clothing> Results { get; set; }
 
+        /// <summary>
+        /// Checks and returns true if any one of the criteria is provided/being searched.
+        /// </summary>
+        public bool IsBeingSearched()
+        {
+            return !string.IsNullOrWhiteSpace(Size) || !string.IsNullOrWhiteSpace(Type) ||
+                   !string.IsNullOrWhiteSpace(Title) || MinPrice.HasValue
+                   || MaxPrice.HasValue;         
+        }
     }
 }

@@ -123,8 +123,16 @@ namespace TinyClothes.Controllers
             //Does not get sent to DB.
             if (ModelState.IsValid)
             {
-                await ClothingDb.BuildSearchQuery(search, _context);
-                return View(search);
+                if (search.IsBeingSearched())
+                {
+                    await ClothingDb.BuildSearchQuery(search, _context);
+                    return View(search);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "You must search by atleast one criteria.");
+                    return View(search);
+                }
             }
             return View();
         }
