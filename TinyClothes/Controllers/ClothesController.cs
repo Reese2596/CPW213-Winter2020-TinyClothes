@@ -138,6 +138,27 @@ namespace TinyClothes.Controllers
                             select c;
             }
 
+            if (!string.IsNullOrWhiteSpace(search.Size))
+            {
+                allCothes = from c in allCothes
+                            where c.Size == search.Size
+                            select c;
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Type))
+            {
+                allCothes = from c in allCothes
+                            where c.Type.Contains(search.Type)
+                            select c;
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Title))
+            {
+                allCothes = from c in allCothes
+                            where c.Title.Contains(search.Title)
+                            select c;
+            }
+
             search.Results = allCothes.ToList();
 
             return View(search);
