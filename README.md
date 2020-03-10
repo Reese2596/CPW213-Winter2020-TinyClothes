@@ -6,7 +6,7 @@
 
 In Class website built using ASP.NET Core MVC
 
-![Tiny Clothes](https://github.com/Reese2596/CPW213-Winter2020-TinyClothes/blob/master/TinyClothes/Xdj9drOWCnJsoARujICCYjyC8oJ_Icjb6hiKo9eVVLE.jpg)
+![Tiny Clothes](https://github.com/Reese2596/CPW213-Winter2020-TinyClothes/blob/master/TinyClothes/wwwroot/images/Xdj9drOWCnJsoARujICCYjyC8oJ_Icjb6hiKo9eVVLE.jpg)
 
 ## Getting Started 
 - Download all of the Programs in the section below titled Required(Visual Studio 2019, ASP.Net Web Developer Extension).
