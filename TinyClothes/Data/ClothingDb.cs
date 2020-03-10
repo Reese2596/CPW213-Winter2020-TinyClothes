@@ -16,7 +16,7 @@ namespace TinyClothes.Data
         /// returns the total nuber of clothing items
         /// </summary>
         /// <returns></returns>
-        public async static Task<int> GetNumClothing(StoreContext context)
+        public static async Task<int> GetNumClothing(StoreContext context)
         {
             return await context.Clothing.CountAsync();
             #region Query Syntax
@@ -105,11 +105,61 @@ namespace TinyClothes.Data
         /// </summary>
         /// <param name="c">Clothing object</param>
         /// <param name="context">DB Context</param>
-        public async static Task Delete(Clothing c, StoreContext context)
+        public static async Task Delete(Clothing c, StoreContext context)
         {
             await context.AddAsync(c);
             context.Entry(c).State = EntityState.Deleted;
             await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Checks that a search criteria is used. Return the Clothes that are true to 
+        /// the search.
+        /// </summary>
+        /// <param name="search"></param>
+        public static async Task<SearchCriteria> BuildSearchQuery(SearchCriteria search, StoreContext context)
+        {
+            IQueryable<Clothing> allCothes = from c in context.Clothing
+                                             select c;
+            //Where minPrice < ?
+            if (search.MinPrice.HasValue)
+            {
+                allCothes = from c in allCothes
+                            where c.Price >= search.MinPrice
+                            select c;
+            }
+
+            //Where Price < MaxPrice
+            if (search.MaxPrice.HasValue)
+            {
+                allCothes = from c in allCothes
+                            where c.Price <= search.MaxPrice
+                            select c;
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Size))
+            {
+                allCothes = from c in allCothes
+                            where c.Size == search.Size
+                            select c;
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Type))
+            {
+                allCothes = from c in allCothes
+                            where c.Type.Contains(search.Type)
+                            select c;
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Title))
+            {
+                allCothes = from c in allCothes
+                            where c.Title.Contains(search.Title)
+                            select c;
+            }
+
+            search.Results = await allCothes.ToListAsync();
+            return search;
         }
     }
 }
