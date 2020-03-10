@@ -1,19 +1,20 @@
 ﻿@model IEnumerable<TinyClothes.Models.Clothing>
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor  http
+@inject IHttpContextAccessor  http
+@*Added using(Microsoft.AspNetCore.Http to viewImports file*@
 @{
     ViewData["Title"] = "List Clothing Inventory";
 }
 
 <h1>Clothing Inventory</h1>
 
-@if(TempData["Msg"] != null)
+@if (TempData["Msg"] != null)
 {
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>@TempData["Msg"]</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@TempData["Msg"]</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 
 <p>
@@ -23,73 +24,8 @@
 <p>
     <a asp-action="Add" asp-controller="Clothes">Create New</a>
 </p>
-<table class="table table-striped table-dark">
-    <thead>
-        <tr>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.ItemID)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Size)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            @{ 
-                //Get current Url path (ie: "/Clothes/ShowAll")
-                string previousUrl = http.HttpContext.Request.Path;
-                //Add query string (ie: "?page=2")
-                previousUrl += http.HttpContext.Request.QueryString.Value;
-            }
-            <td>
-                <a asp-action="AddToCart" asp-controller="Cart" class="btn btn-outline-light"
-                   asp-route-id="@item.ItemID" asp-route-prevUrl="@previousUrl">Add To Cart</a><br /><br />
-                <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-outline-light">Edit Me</a> | 
-                <a asp-action="Delete" asp-route-id="@item.ItemID" class="btn btn-outline-light">Delete Me</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+@await Html.PartialAsync("_DisplayClothes", Model)
 
 <ul class="pagination">
     @* Print out Page Numbers *@
@@ -107,5 +43,5 @@
                 <a class="page-link" href="#">@i</a>
             </li>
         }
-    }   
+    }
 </ul>
