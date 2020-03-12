@@ -45,6 +45,13 @@ namespace TinyClothes.Controllers
             return Redirect(prevUrl);
         }
 
+        public async void AddToCartJs(int id)
+        {
+            //ToDo: Get the id of Clothing item to add
+                    //Add the item to cart
+                    //Send success response.
+        }
+
         /// <summary>
         /// Summary/Checkout page.
         /// </summary>

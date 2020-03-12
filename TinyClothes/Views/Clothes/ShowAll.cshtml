@@ -45,3 +45,26 @@
         }
     }
 </ul>
+
+@*Sections do not work in partial views.*@
+@section Scripts{
+    <script>
+        console.log("Add to cart script");
+        $("*[data-cart-button]").click(
+            function (event) {
+                //stop <a> from redirecting
+                event.preventDefault();
+
+                //Add to cart button clicked
+                var currBtn = this;
+                console.log(currBtn);
+
+                var itemId = $(currBtn).attr("data-cart-ItemId");
+
+                $.post("/Cart/AddToCartJS", { id : itemId })
+                    .done(function () {
+                        alert("Added to Cart")
+                    });
+            })
+    </script>
+}
