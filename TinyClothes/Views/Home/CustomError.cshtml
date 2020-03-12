@@ -3,15 +3,17 @@
     ViewData["Title"] = "CustomError";
 }
 
-<h1>Uh-Oh</h1>
+<br /><br /><br />
+<div class="float-right">
+    <img class="rounded float-left" src="~/images/sylviebaby.png" alt="Cute Dragon Baby" />
+    <h5>Happy to see you Too!</h5>
+</div>
 
-@if (ViewData["ErrorMessage"] != null)
+@if (ViewData["ErrorMesssage"] != null)
 {
-    <h1>@ViewData["ErrorMessage"]</h1>
+    <h1>@ViewData["ErrorMesssage"]</h1>
 }
 else
 {
-    <h2>Happy to see you Too!</h2>
-    <p>Something bad happened please try agian!</p>
-    <img src="~/images/sylvie.png" alt="Alternate Text" />
+    <h1>Something bad happened please try agian!</h1>
 }
